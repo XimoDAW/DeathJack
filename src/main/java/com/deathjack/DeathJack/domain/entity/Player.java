@@ -15,6 +15,10 @@ public class Player {
         this.bot = bot;
     }
 
+    public Player () {
+
+    }
+
     public int getId() {
         return id;
     }

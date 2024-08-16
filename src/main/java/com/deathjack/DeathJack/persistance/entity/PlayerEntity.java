@@ -1,5 +1,7 @@
 package com.deathjack.DeathJack.persistance.entity;
 
+import com.deathjack.DeathJack.domain.entity.Player;
+
 public class PlayerEntity {
     private int id;
     private int id_score;
@@ -13,6 +15,10 @@ public class PlayerEntity {
         this.name = name;
         this.password = password;
         this.bot = bot;
+    }
+
+    public PlayerEntity () {
+
     }
 
     public int getId() {

@@ -3,7 +3,7 @@ package com.deathjack.DeathJack.http_response;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonPropertyOrder({ "totalRecords", "pagination", "data"})
+@JsonPropertyOrder({ "data"})
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Response {
     private Object data;
