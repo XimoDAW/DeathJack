@@ -3,7 +3,6 @@ package com.deathjack.DeathJack;
 import com.deathjack.DeathJack.ddbb.DBUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,7 +34,13 @@ public class DBUtilTest {
 
     @Test
     public void insert () throws SQLException {
-        String sql = "INSERT INTO player (name, password) VALUES (?, ?)";
-        int result = DBUtil.insert(connection, sql, List.of(2, "Juan", "Juan"));
+        String sql = "INSERT INTO player (name, password, bot) VALUES (?, ?, ?)";
+        int result = DBUtil.insert(connection, sql, List.of("Juan", "Juan", false));
+        String sql2 = "SELECT id FROM player ORDER BY id DESC LIMIT 1";
+        ResultSet resultSet = DBUtil.select(connection, sql2, null);
+        resultSet.next();
+        int id = resultSet.getInt("id");
+        String sql3 = "UPDATE player SET id_score = " + id + " WHERE id = ?";
+        int result2 = DBUtil.update(connection, sql3, List.of(id));
     }
 }

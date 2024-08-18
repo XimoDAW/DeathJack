@@ -42,4 +42,14 @@ class PlayerDAOTest {
                 () -> assertEquals(true, playerEntityList.get(0).isBot(), "El jugador no es bot")
         );
     }
+
+    @Test
+    public void createPlayer() {
+        int id = playerDAO.createPlayer(connection, "Pepe", "pepe");
+        PlayerEntity playerEntity = playerDAO.getPlayerById(connection, id).get();
+        assertAll(
+                () -> assertEquals("Pepe", playerEntity.getName(), "El nombre no es el correcto"),
+                () -> assertEquals("pepe", playerEntity.getPassword(), "La contraseña no es la correcta")
+        );
+    }
 }

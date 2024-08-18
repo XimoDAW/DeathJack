@@ -23,4 +23,14 @@ public class PlayerServiceImpl implements PlayerService {
     public List<Player> getAllPlayers() {
         return playerRepository.getAllPlayers();
     }
+
+    @Override
+    public int createPlayer(String name, String password) {
+        return playerRepository.createPlayer(name, password);
+    }
+
+    @Override
+    public int updatePlayer(int id, String name, String password) {
+        return playerRepository.updatePlayer(id, name, password);
+    }
 }

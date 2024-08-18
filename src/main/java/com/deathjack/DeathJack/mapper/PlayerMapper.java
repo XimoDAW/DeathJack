@@ -1,7 +1,9 @@
 package com.deathjack.DeathJack.mapper;
 
+import com.deathjack.DeathJack.controller.entity.CreatePlayer;
 import com.deathjack.DeathJack.controller.entity.PlayerDetailWeb;
 import com.deathjack.DeathJack.controller.entity.PlayerListWeb;
+import com.deathjack.DeathJack.controller.entity.UpdatePlayer;
 import com.deathjack.DeathJack.domain.entity.Player;
 import com.deathjack.DeathJack.persistance.entity.PlayerEntity;
 
@@ -33,6 +35,38 @@ public class PlayerMapper {
             player.setName(playerEntity.getName());
             player.setPassword(playerEntity.getPassword());
             player.setBot(playerEntity.isBot());
+            return player;
+        }catch (Exception e) {
+            throw new RuntimeException("Error");
+        }
+
+    }
+
+    public static Player toPlayer (CreatePlayer createPlayer) {
+        try {
+            Player player = new Player();
+
+            player.setId(0);
+            player.setId_score(0);
+            player.setName(createPlayer.getName());
+            player.setPassword(createPlayer.getPassword());
+            player.setBot(false);
+            return player;
+        }catch (Exception e) {
+            throw new RuntimeException("Error");
+        }
+
+    }
+
+    public static Player toPlayer (int id, UpdatePlayer updatePlayer) {
+        try {
+            Player player = new Player();
+
+            player.setId(id);
+            player.setId_score(0);
+            player.setName(updatePlayer.getName());
+            player.setPassword(updatePlayer.getPassword());
+            player.setBot(false);
             return player;
         }catch (Exception e) {
             throw new RuntimeException("Error");

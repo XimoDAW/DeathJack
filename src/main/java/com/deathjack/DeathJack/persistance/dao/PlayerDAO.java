@@ -40,11 +40,27 @@ public class PlayerDAO {
         }
     }
 
-    public int createPlayer (Connection connection, String name, String password, int id_score) {
+    public int createPlayer (Connection connection, String name, String password) {
         try {
-            String sql = "INSERT INTO player (id_score, name, password) VALUES (?, ?, ?)";
-            int result = DBUtil.insert(connection, sql, List.of(id_score, name, password));
-            return 1;
+            String sql = "INSERT INTO player (name, password, bot) VALUES (?, ?, ?)";
+            int result = DBUtil.insert(connection, sql, List.of(name, password, false));
+            String sql2 = "SELECT id FROM player ORDER BY id DESC LIMIT 1";
+            ResultSet resultSet = DBUtil.select(connection, sql2, null);
+            resultSet.next();
+            int id = resultSet.getInt("id");
+            String sql3 = "UPDATE player SET id_score = " + id + " WHERE id = ?";
+            int result2 = DBUtil.update(connection, sql3, List.of(id));
+            return id;
+        }catch (Exception e) {
+            throw new RuntimeException("Error");
+        }
+    }
+
+    public String updatePlayer (Connection connection, int id, String name, String password) {
+        try {
+            String sql = "UPDATE player SET name = ?, password = ? WHERE id = ?";
+            int result = DBUtil.update(connection, sql, List.of(name, password, id));
+            return "Jugador actualizado";
         }catch (Exception e) {
             throw new RuntimeException("Error");
         }

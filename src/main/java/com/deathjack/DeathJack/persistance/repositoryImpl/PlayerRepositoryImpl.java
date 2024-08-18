@@ -44,4 +44,23 @@ public class PlayerRepositoryImpl implements PlayerRepository {
             throw new RuntimeException("Error");
         }
     }
+
+    @Override
+    public int createPlayer(String name, String password) {
+        try (Connection connection = DBUtil.open(true)){
+            return playerDAO.createPlayer(connection, name, password);
+        }catch (Exception e) {
+            throw new RuntimeException("Error");
+        }
+    }
+
+    @Override
+    public int updatePlayer(int id, String name, String password) {
+        try (Connection connection = DBUtil.open(true)){
+            playerDAO.updatePlayer(connection, id, name, password);
+            return 1;
+        } catch (Exception e) {
+            throw new RuntimeException("Error");
+        }
+    }
 }

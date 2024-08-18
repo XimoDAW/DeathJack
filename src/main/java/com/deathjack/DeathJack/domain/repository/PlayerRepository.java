@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface PlayerRepository {
     public Optional<Player> getPlayerById(int id);
     public List<Player> getAllPlayers();
+    public int createPlayer(String name, String password);
+    public int updatePlayer(int id, String name, String password);
 }

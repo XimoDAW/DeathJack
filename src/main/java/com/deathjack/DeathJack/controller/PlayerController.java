@@ -1,15 +1,15 @@
 package com.deathjack.DeathJack.controller;
 
+import com.deathjack.DeathJack.controller.entity.CreatePlayer;
 import com.deathjack.DeathJack.controller.entity.PlayerDetailWeb;
 import com.deathjack.DeathJack.controller.entity.PlayerListWeb;
+import com.deathjack.DeathJack.controller.entity.UpdatePlayer;
 import com.deathjack.DeathJack.domain.entity.Player;
 import com.deathjack.DeathJack.domain.service.PlayerService;
 import com.deathjack.DeathJack.domain.service.impl.PlayerServiceImpl;
 import com.deathjack.DeathJack.http_response.Response;
 import com.deathjack.DeathJack.mapper.PlayerMapper;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,5 +36,17 @@ public class PlayerController {
         Player player = playerService.getPlayerById(1).get();
         PlayerDetailWeb playerDetailWeb = PlayerMapper.toPlayerDetailWeb(player);
         return new Response(playerDetailWeb);
+    }
+
+    @PostMapping("/deathjack/player/insert")
+    public int createPlayer(@RequestBody CreatePlayer createPlayer) {
+        Player player = PlayerMapper.toPlayer(createPlayer);
+        return playerService.createPlayer(player.getName(), player.getPassword());
+    }
+
+    @PutMapping("/deathjack/player/update/{id}")
+    public int updatePlayer(@PathVariable("id") int id, @RequestBody UpdatePlayer updatePlayer) {
+        Player player = PlayerMapper.toPlayer(id, updatePlayer);
+        return playerService.updatePlayer(id, player.getName(), player.getPassword());
     }
 }
