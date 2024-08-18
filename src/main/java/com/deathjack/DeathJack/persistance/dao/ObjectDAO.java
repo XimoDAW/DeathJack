@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ObjectDAO {
 
@@ -25,6 +26,18 @@ public class ObjectDAO {
             }
 
             return objectEntityList;
+        }catch (Exception e) {
+            throw new RuntimeException("Error");
+        }
+    }
+
+    public Optional<ObjectEntity> getObjectById (Connection connection, int id) {
+        try {
+            String sql = "SELECT * FROM object WHERE id = ?";
+            ResultSet resultSet = DBUtil.select(connection, sql, List.of(id));
+            resultSet.next();
+            return Optional.of(ObjectMapper.toObjectEntity(resultSet));
+
         }catch (Exception e) {
             throw new RuntimeException("Error");
         }

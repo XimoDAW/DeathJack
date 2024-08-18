@@ -27,7 +27,7 @@ public class PlayerMockitoTest {
     private PlayerRepositoryImpl playerRepository;
 
     @Test
-    void getPlayerById() {
+    public void getPlayerById() {
         Player mockPlayer = new Player();
         mockPlayer.setId(1);
         mockPlayer.setId_score(1);

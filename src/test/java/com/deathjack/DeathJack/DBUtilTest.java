@@ -32,4 +32,10 @@ public class DBUtilTest {
         );
         connection.close();
     }
+
+    @Test
+    public void insert () throws SQLException {
+        String sql = "INSERT INTO player (name, password) VALUES (?, ?)";
+        int result = DBUtil.insert(connection, sql, List.of(2, "Juan", "Juan"));
+    }
 }

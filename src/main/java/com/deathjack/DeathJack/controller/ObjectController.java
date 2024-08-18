@@ -1,6 +1,7 @@
 package com.deathjack.DeathJack.controller;
 
 import com.deathjack.DeathJack.controller.entity.ObjectDetailWeb;
+import com.deathjack.DeathJack.controller.entity.ObjectListWeb;
 import com.deathjack.DeathJack.domain.entity.Object;
 import com.deathjack.DeathJack.domain.service.ObjectService;
 import com.deathjack.DeathJack.domain.service.impl.ObjectServiceImpl;
@@ -20,11 +21,18 @@ public class ObjectController {
     @GetMapping("/deathjack/objects")
     public Response getAllObjects () {
         List<Object> objectList = objectService.getAllObjects();
-        List<ObjectDetailWeb> objectDetailWebList = new ArrayList<>();
+        List<ObjectListWeb> objectListWebList = new ArrayList<>();
 
         objectList.stream().map(object -> {
-            return objectDetailWebList.add(ObjectMapper.toObjectDetailWeb(object));
+            return objectListWebList.add(ObjectMapper.toObjectListWeb(object));
         }).toList();
-        return new Response(objectDetailWebList);
+        return new Response(objectListWebList);
+    }
+
+    @GetMapping("/deathjack/object/{id}")
+    public Response getObjectById (@PathVariable("id") int id) {
+        Object object = objectService.getObjectById(id).get();
+        ObjectDetailWeb objectDetailWeb = ObjectMapper.toObjectDetailWeb(object);
+        return new Response(objectDetailWeb);
     }
 }

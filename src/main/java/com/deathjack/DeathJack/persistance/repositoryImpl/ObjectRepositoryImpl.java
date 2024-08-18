@@ -8,9 +8,11 @@ import com.deathjack.DeathJack.persistance.dao.ObjectDAO;
 import com.deathjack.DeathJack.persistance.entity.ObjectEntity;
 import org.springframework.stereotype.Repository;
 
+import javax.swing.text.html.Option;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class ObjectRepositoryImpl implements ObjectRepository {
@@ -28,6 +30,17 @@ public class ObjectRepositoryImpl implements ObjectRepository {
             ).toList();
 
             return objectList;
+        }catch (Exception e) {
+            throw new RuntimeException("Error");
+        }
+    }
+
+    @Override
+    public Optional<Object> getObjectById(int id) {
+        try (Connection connection = DBUtil.open(true)){
+            Optional<ObjectEntity> objectEntity= objectDAO.getObjectById(connection, id);
+            Optional<Object> object = Optional.of(ObjectMapper.toObject(objectEntity.get()));
+            return object;
         }catch (Exception e) {
             throw new RuntimeException("Error");
         }

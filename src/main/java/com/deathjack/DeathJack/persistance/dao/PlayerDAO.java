@@ -39,4 +39,14 @@ public class PlayerDAO {
             throw new RuntimeException("Error");
         }
     }
+
+    public int createPlayer (Connection connection, String name, String password, int id_score) {
+        try {
+            String sql = "INSERT INTO player (id_score, name, password) VALUES (?, ?, ?)";
+            int result = DBUtil.insert(connection, sql, List.of(id_score, name, password));
+            return 1;
+        }catch (Exception e) {
+            throw new RuntimeException("Error");
+        }
+    }
 }

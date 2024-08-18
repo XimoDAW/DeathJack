@@ -7,6 +7,7 @@ import com.deathjack.DeathJack.persistance.repositoryImpl.ObjectRepositoryImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ObjectServiceImpl implements ObjectService {
@@ -14,5 +15,10 @@ public class ObjectServiceImpl implements ObjectService {
     @Override
     public List<Object> getAllObjects() {
         return objectRepository.getAllObjects();
+    }
+
+    @Override
+    public Optional<Object> getObjectById(int id) {
+        return objectRepository.getObjectById(id);
     }
 }
