@@ -16,6 +16,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public Optional<Player> getPlayerById(int id) {
+        Optional <Player> player = Optional.of(playerRepository.getPlayerById(id).get());
         return Optional.of(playerRepository.getPlayerById(id).get());
     }
 

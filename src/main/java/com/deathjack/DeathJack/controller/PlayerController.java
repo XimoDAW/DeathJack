@@ -33,7 +33,7 @@ public class PlayerController {
 
     @GetMapping("/deathjack/player/{id}")
     public Response getPlayerById(@PathVariable("id") int id) {
-        Player player = playerService.getPlayerById(1).get();
+        Player player = playerService.getPlayerById(id).get();
         PlayerDetailWeb playerDetailWeb = PlayerMapper.toPlayerDetailWeb(player);
         return new Response(playerDetailWeb);
     }
