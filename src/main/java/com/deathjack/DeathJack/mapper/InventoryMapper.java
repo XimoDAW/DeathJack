@@ -2,6 +2,7 @@ package com.deathjack.DeathJack.mapper;
 
 import com.deathjack.DeathJack.controller.entity.CreateInventory;
 import com.deathjack.DeathJack.controller.entity.InventoryDetailWeb;
+import com.deathjack.DeathJack.controller.entity.ObjectDetailWeb;
 import com.deathjack.DeathJack.domain.entity.Inventory;
 import com.deathjack.DeathJack.domain.entity.Object;
 import com.deathjack.DeathJack.domain.entity.Player;
@@ -10,6 +11,8 @@ import com.deathjack.DeathJack.persistance.entity.ObjectEntity;
 import com.deathjack.DeathJack.persistance.entity.PlayerEntity;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class InventoryMapper {
     public static InventoryEntity toInventoryEntity (ResultSet resultSet) {
@@ -25,12 +28,21 @@ public class InventoryMapper {
 
     }
 
-    public static Inventory toInventory (InventoryEntity inventoryEntity, PlayerEntity playerEntity, ObjectEntity objectEntity) {
+    public static Inventory toInventory (InventoryEntity inventoryEntity, PlayerEntity playerEntity, List<ObjectEntity> objectEntityList) {
         try {
             Inventory inventory = new Inventory();
             inventory.setId(inventoryEntity.getId());
             inventory.setPlayer(PlayerMapper.toPlayer(playerEntity));
-            inventory.setObject(ObjectMapper.toObject(objectEntity));
+            List<Object> objectList = new ArrayList<>();
+
+            objectEntityList.stream().map(
+                    objectEntity -> {
+                        return objectList.add(ObjectMapper.toObject(objectEntity));
+                    }
+                    ).
+                    toList();
+
+            inventory.setObjects(objectList);
             return inventory;
         }catch (Exception e) {
             throw new RuntimeException("Error");
@@ -43,7 +55,14 @@ public class InventoryMapper {
             InventoryDetailWeb inventoryDetailWeb = new InventoryDetailWeb();
             inventoryDetailWeb.setId(inventory.getId());
             inventoryDetailWeb.setPlayerDetailWeb(PlayerMapper.toPlayerDetailWeb(inventory.getPlayer()));
-            inventoryDetailWeb.setObjectDetailWeb(ObjectMapper.toObjectDetailWeb(inventory.getObject()));
+            List<ObjectDetailWeb> objectDetailWebList = new ArrayList<>();
+            inventory.getObjects().stream().map(
+                    object -> {
+                        return objectDetailWebList.add(ObjectMapper.toObjectDetailWeb(object));
+                    }
+                    ).
+                    toList();
+            inventoryDetailWeb.setObjectsDetailWeb(objectDetailWebList);
             return inventoryDetailWeb;
         }catch (Exception e) {
             throw new RuntimeException("Error");

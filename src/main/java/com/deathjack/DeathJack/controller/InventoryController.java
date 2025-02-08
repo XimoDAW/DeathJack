@@ -18,7 +18,6 @@ public class InventoryController {
     public Response getInventoryByPlayerId(@PathVariable("playerId") int playerId) {
         Inventory inventory = inventoryService.getInventoryByPlayerId(playerId).get();
         InventoryDetailWeb inventoryDetailWeb = InventoryMapper.toInventoryDetailWeb(inventory);
-        System.out.println(inventory.getPlayer().getName());
         return new Response(inventoryDetailWeb);
     }
 

@@ -1,20 +1,22 @@
 package com.deathjack.DeathJack.domain.entity;
 
 
+import java.util.List;
+
 public class Inventory {
     private int id;
     private Player player;
-    private Object object;
+    private List<Object> objects;
 
 
     public Inventory() {
 
     }
 
-    public Inventory (int id, Player player, Object object) {
+    public Inventory (int id, Player player, List<Object> objects) {
         this.id = id;
         this.player = player;
-        this.object = object;
+        this.objects = objects;
     }
 
     public int getId() {
@@ -33,11 +35,11 @@ public class Inventory {
         this.player = player;
     }
 
-    public Object getObject() {
-        return object;
+    public List<Object> getObjects() {
+        return objects;
     }
 
-    public void setObject(Object object) {
-        this.object = object;
+    public void setObjects(List<Object> objects) {
+        this.objects = objects;
     }
 }

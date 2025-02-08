@@ -2,7 +2,9 @@ package com.deathjack.DeathJack.persistance.dao;
 
 import com.deathjack.DeathJack.ddbb.DBUtil;
 import com.deathjack.DeathJack.mapper.InventoryMapper;
+import com.deathjack.DeathJack.mapper.ObjectMapper;
 import com.deathjack.DeathJack.persistance.entity.InventoryEntity;
+import com.deathjack.DeathJack.persistance.entity.ObjectEntity;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -11,13 +13,18 @@ import java.util.List;
 import java.util.Optional;
 
 public class InventoryDAO {
-    public Optional<InventoryEntity> getInventoryByIdPlayer(Connection connection, int id) {
+    public List<InventoryEntity> getInventoryByIdPlayer(Connection connection, int id) {
         try {
             String sql = "SELECT * FROM inventory WHERE id_player = ?";
             ResultSet resultSet = DBUtil.select(connection, sql, List.of(id));
-            resultSet.next();
-            InventoryEntity inventoryEntity = InventoryMapper.toInventoryEntity(resultSet);
-            return Optional.of(inventoryEntity);
+            List<InventoryEntity> inventoryEntityList = new ArrayList<>();
+
+            while (resultSet.next()) {
+                InventoryEntity inventoryEntity = InventoryMapper.toInventoryEntity(resultSet);
+                inventoryEntityList.add(inventoryEntity);
+            }
+
+            return inventoryEntityList;
         } catch (Exception e) {
             throw new RuntimeException("Error");
         }

@@ -1,19 +1,21 @@
 package com.deathjack.DeathJack.controller.entity;
 
 
+import java.util.List;
+
 public class InventoryDetailWeb {
     private int id;
     private PlayerDetailWeb playerDetailWeb;
-    private ObjectDetailWeb objectDetailWeb;
+    private List<ObjectDetailWeb> objectsDetailWeb;
 
     public InventoryDetailWeb() {
 
     }
 
-    public InventoryDetailWeb(int id, PlayerDetailWeb playerDetailWeb, ObjectDetailWeb objectDetailWeb) {
+    public InventoryDetailWeb(int id, PlayerDetailWeb playerDetailWeb, List<ObjectDetailWeb> objectsDetailWeb) {
         this.id = id;
         this.playerDetailWeb = playerDetailWeb;
-        this.objectDetailWeb = objectDetailWeb;
+        this.objectsDetailWeb = objectsDetailWeb;
     }
 
     public int getId() {
@@ -32,11 +34,11 @@ public class InventoryDetailWeb {
         this.playerDetailWeb = playerDetailWeb;
     }
 
-    public ObjectDetailWeb getObjectDetailWeb() {
-        return objectDetailWeb;
+    public List<ObjectDetailWeb> getObjectsDetailWeb() {
+        return objectsDetailWeb;
     }
 
-    public void setObjectDetailWeb(ObjectDetailWeb objectDetailWeb) {
-        this.objectDetailWeb = objectDetailWeb;
+    public void setObjectsDetailWeb(List<ObjectDetailWeb> objectsDetailWeb) {
+        this.objectsDetailWeb = objectsDetailWeb;
     }
 }

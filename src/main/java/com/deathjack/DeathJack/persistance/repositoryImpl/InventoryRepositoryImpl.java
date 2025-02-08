@@ -2,13 +2,20 @@ package com.deathjack.DeathJack.persistance.repositoryImpl;
 
 import com.deathjack.DeathJack.ddbb.DBUtil;
 import com.deathjack.DeathJack.domain.entity.Inventory;
+import com.deathjack.DeathJack.domain.entity.Object;
 import com.deathjack.DeathJack.domain.repository.InventoryRepository;
-import com.deathjack.DeathJack.mapper.InventoryMapper;
+import com.deathjack.DeathJack.mapper.ObjectMapper;
+import com.deathjack.DeathJack.mapper.PlayerMapper;
 import com.deathjack.DeathJack.persistance.dao.InventoryDAO;
 import com.deathjack.DeathJack.persistance.dao.ObjectDAO;
 import com.deathjack.DeathJack.persistance.dao.PlayerDAO;
+import com.deathjack.DeathJack.persistance.entity.InventoryEntity;
+import com.deathjack.DeathJack.persistance.entity.ObjectEntity;
+import com.deathjack.DeathJack.persistance.entity.PlayerEntity;
 
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class InventoryRepositoryImpl implements InventoryRepository {
@@ -18,9 +25,27 @@ public class InventoryRepositoryImpl implements InventoryRepository {
     @Override
     public Optional<Inventory> getInventoryByPlayerId(int playerId) {
         try (Connection connection = DBUtil.open(true)){
-            Inventory inventory = InventoryMapper.toInventory(inventoryDAO.getInventoryByIdPlayer(connection, playerId).get(),
-            playerDAO.getPlayerById(connection, playerId).get(),
-            objectDAO.getObjectById(connection, inventoryDAO.getInventoryByIdPlayer(connection, playerId).get().getId_object()).get());
+            List<InventoryEntity> inventoryEntityList = inventoryDAO.getInventoryByIdPlayer(connection, playerId);
+            Inventory inventory = new Inventory();
+            PlayerEntity playerEntity = playerDAO.getPlayerById(connection, inventoryEntityList.get(0).getId_player()).get();
+            List<ObjectEntity> objectEntityList = new ArrayList<>();
+
+            inventoryEntityList.stream().map(
+                    inventoryEntity -> {
+                        return objectEntityList.add(objectDAO.getObjectById(connection, inventoryEntity.getId_object()).get());
+                    }
+            ).toList();
+
+            inventory.setPlayer(PlayerMapper.toPlayer(playerEntity));
+
+            List<Object> objectList = new ArrayList<>();
+
+            objectEntityList.stream().map(
+                objectEntity -> {
+                    return objectList.add(ObjectMapper.toObject(objectEntity));
+                }
+            ).toList();
+            inventory.setObjects(objectList);
             return Optional.of(inventory);
         } catch (Exception e) {
             throw new RuntimeException("Error");

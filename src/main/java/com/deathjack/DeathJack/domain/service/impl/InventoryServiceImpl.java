@@ -12,7 +12,7 @@ public class InventoryServiceImpl implements InventoryService {
     @Override
     public Optional<Inventory> getInventoryByPlayerId(int playerId) {
         Optional <Inventory> inventory = Optional.of(inventoryRepository.getInventoryByPlayerId(playerId).get());
-        return Optional.empty();
+        return Optional.of(inventory.get());
     }
 
     @Override
