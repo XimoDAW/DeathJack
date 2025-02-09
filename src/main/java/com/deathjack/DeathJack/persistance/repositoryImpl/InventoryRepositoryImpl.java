@@ -60,4 +60,13 @@ public class InventoryRepositoryImpl implements InventoryRepository {
             throw new RuntimeException("Error");
         }
     }
+
+    @Override
+    public String deleteObjectInInventory(int playerId, int objectId) {
+        try (Connection connection = DBUtil.open(true)) {
+            return inventoryDAO.deleteObjectInInventory(connection, playerId, objectId);
+        }catch (Exception e) {
+            throw new RuntimeException("Error");
+        }
+    }
 }

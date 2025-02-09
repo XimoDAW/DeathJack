@@ -65,4 +65,14 @@ public class PlayerDAO {
             throw new RuntimeException("Error");
         }
     }
+
+    public String deletePlayer (Connection connection, int id) {
+        try {
+            String sql = "DELETE FROM player WHERE id = ?";
+            int result = DBUtil.delete(connection, sql, List.of(id));
+            return "Jugador eliminado";
+        }catch (Exception e) {
+            throw new RuntimeException("Error");
+        }
+    }
 }

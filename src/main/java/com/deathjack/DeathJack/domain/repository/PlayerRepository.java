@@ -12,4 +12,5 @@ public interface PlayerRepository {
     public List<Player> getAllPlayers();
     public int createPlayer(String name, String password);
     public int updatePlayer(int id, String name, String password);
+    public int deletePlayer(int id);
 }

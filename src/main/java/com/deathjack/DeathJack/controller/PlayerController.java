@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class PlayerController {
@@ -38,15 +37,20 @@ public class PlayerController {
         return new Response(playerDetailWeb);
     }
 
-    @PostMapping("/deathjack/player/insert")
+    @PostMapping("/deathjack/player")
     public int createPlayer(@RequestBody CreatePlayer createPlayer) {
         Player player = PlayerMapper.toPlayer(createPlayer);
         return playerService.createPlayer(player.getName(), player.getPassword());
     }
 
-    @PutMapping("/deathjack/player/update/{id}")
+    @PutMapping("/deathjack/player/{id}")
     public int updatePlayer(@PathVariable("id") int id, @RequestBody UpdatePlayer updatePlayer) {
         Player player = PlayerMapper.toPlayer(id, updatePlayer);
         return playerService.updatePlayer(id, player.getName(), player.getPassword());
+    }
+
+    @DeleteMapping("/deathjack/player/{id}")
+    public int deletePlayer(@PathVariable("id") int id) {
+        return playerService.deletePlayer(id);
     }
 }

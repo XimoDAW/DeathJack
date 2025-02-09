@@ -73,4 +73,14 @@ public class DBUtil {
             throw new RuntimeException("Error");
         }
     }
+
+    public static int delete (Connection connection, String sql, List<Object> values) {
+        try {
+            PreparedStatement preparedStatement = setParameters(connection, sql, values);
+            preparedStatement.executeUpdate();
+            return 1;
+        }catch (Exception e){
+            throw new RuntimeException("Error");
+        }
+    }
 }

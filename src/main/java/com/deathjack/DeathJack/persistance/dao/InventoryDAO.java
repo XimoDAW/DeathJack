@@ -40,11 +40,11 @@ public class InventoryDAO {
         }
     }
 
-    public String updateInventory (Connection connection, int id, String name, String password) {
+    public String deleteObjectInInventory (Connection connection, int playerId, int objectId) {
         try {
-            String sql = "UPDATE inventory SET name = ?, password = ? WHERE id = ?";
-            int result = DBUtil.update(connection, sql, List.of(name, password, id));
-            return "Jugador actualizado";
+            String sql = "DELETE FROM inventory WHERE id_player = ? AND id_object = ?";
+            int result = DBUtil.delete(connection, sql, List.of(playerId, objectId));
+            return "Objeto eliminado del inventario";
         }catch (Exception e) {
             throw new RuntimeException("Error");
         }

@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface InventoryRepository {
     public Optional<Inventory> getInventoryByPlayerId(int playerId);
     public int insertInventory(int playerId, int objectId);
+    public String deleteObjectInInventory(int playerId, int objectId);
 }

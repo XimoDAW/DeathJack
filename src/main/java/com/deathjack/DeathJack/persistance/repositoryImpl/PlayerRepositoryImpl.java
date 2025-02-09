@@ -63,4 +63,14 @@ public class PlayerRepositoryImpl implements PlayerRepository {
             throw new RuntimeException("Error");
         }
     }
+
+    @Override
+    public int deletePlayer(int id) {
+        try (Connection connection = DBUtil.open(true)){
+            playerDAO.deletePlayer(connection, id);
+            return 1;
+        } catch (Exception e) {
+            throw new RuntimeException("Error");
+        }
+    }
 }
