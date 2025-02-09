@@ -24,17 +24,18 @@ public class InventoryServiceImpl implements InventoryService {
         try {
             Optional <Inventory> inventory = getInventoryByPlayerId(idPlayer);
             boolean isDuplicate = false;
-
-            for (int i = 0; i < inventory.get().getObjects().size(); i++) {
-                if (inventory.get().getObjects().get(i).getId() == idObject) {
-                    isDuplicate = true;
-                    i = inventory.get().getObjects().size();
+            if (inventory.get().getId() != 0) {
+                for (int i = 0; i < inventory.get().getObjects().size(); i++) {
+                    if (inventory.get().getObjects().get(i).getId() == idObject) {
+                        isDuplicate = true;
+                        i = inventory.get().getObjects().size();
+                    }
                 }
-            }
 
-            if (isDuplicate) {
-                throw new DuplicateObjectException("El objeto ya esta en el inventario del jugador");
-            }
+                if (isDuplicate) {
+                    throw new DuplicateObjectException("El objeto ya esta en el inventario del jugador");
+                }
+                }
             return inventoryRepository.insertInventory(idPlayer, idObject);
         }catch (DuplicateObjectException e) {
             throw new RuntimeException(e.getMessage());

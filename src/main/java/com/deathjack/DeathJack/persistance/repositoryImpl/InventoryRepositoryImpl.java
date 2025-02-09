@@ -27,25 +27,27 @@ public class InventoryRepositoryImpl implements InventoryRepository {
         try (Connection connection = DBUtil.open(true)){
             List<InventoryEntity> inventoryEntityList = inventoryDAO.getInventoryByIdPlayer(connection, playerId);
             Inventory inventory = new Inventory();
-            PlayerEntity playerEntity = playerDAO.getPlayerById(connection, inventoryEntityList.get(0).getId_player()).get();
-            List<ObjectEntity> objectEntityList = new ArrayList<>();
+            if (!inventoryEntityList.isEmpty()) {
+                PlayerEntity playerEntity = playerDAO.getPlayerById(connection, inventoryEntityList.get(0).getId_player()).get();
+                List<ObjectEntity> objectEntityList = new ArrayList<>();
 
-            inventoryEntityList.stream().map(
-                    inventoryEntity -> {
-                        return objectEntityList.add(objectDAO.getObjectById(connection, inventoryEntity.getId_object()).get());
-                    }
-            ).toList();
+                inventoryEntityList.stream().map(
+                        inventoryEntity -> {
+                            return objectEntityList.add(objectDAO.getObjectById(connection, inventoryEntity.getId_object()).get());
+                        }
+                ).toList();
+                inventory.setId(playerId);
+                inventory.setPlayer(PlayerMapper.toPlayer(playerEntity));
 
-            inventory.setPlayer(PlayerMapper.toPlayer(playerEntity));
+                List<Object> objectList = new ArrayList<>();
 
-            List<Object> objectList = new ArrayList<>();
-
-            objectEntityList.stream().map(
-                objectEntity -> {
-                    return objectList.add(ObjectMapper.toObject(objectEntity));
-                }
-            ).toList();
-            inventory.setObjects(objectList);
+                objectEntityList.stream().map(
+                        objectEntity -> {
+                            return objectList.add(ObjectMapper.toObject(objectEntity));
+                        }
+                ).toList();
+                inventory.setObjects(objectList);
+            }
             return Optional.of(inventory);
         } catch (Exception e) {
             throw new RuntimeException("Error");
